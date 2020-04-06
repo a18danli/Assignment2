@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -17,6 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    private WebView webView;
 
     public void showExternalWebPage(){
         // TODO: Add your code for showing external web page here
@@ -32,6 +36,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        WebView webView=findViewById(R.id.my_webview);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("https://www.google.com");
+
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
 
         /*
         * Rename your App. Tip: Values->Strings
@@ -58,26 +69,10 @@ public class MainActivity extends AppCompatActivity {
            one (1) screenshot showing your external web page.
         */
 
-        WebView webView=findViewById(R.id.my_webview);
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://www.google.com");
+
 
     }
 
-    private class my_webview extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if ("www.google.com".equals(Uri.parse(url).getHost())) {
-                // This is my website, so do not override; let my WebView load the page
-                return false;
-            }
-
-            // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(intent);
-            return true;
-        }
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
