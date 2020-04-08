@@ -1,5 +1,6 @@
 package com.example.webviewapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,9 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -24,11 +27,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void showExternalWebPage(){
         // TODO: Add your code for showing external web page here
-    }
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/"));
+        startActivity(browserIntent);
+
+        }
+
 
     public void showInternalWebPage(){
         // TODO: Add your code for showing internal web page here
-    }
+        WebView webView=findViewById(R.id.my_webview);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("file:///android_asset/javascript.html");
+
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
         WebView webView=findViewById(R.id.my_webview);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://www.google.com");
+        webView.loadUrl("http://www.google.com");
 
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+
+
+
 
         /*
         * Rename your App. Tip: Values->Strings
@@ -73,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -90,11 +106,15 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_external_web) {
             Log.d("==>","Will display external web page");
+            Toast.makeText(this, "External Clicked", Toast.LENGTH_SHORT).show();
+            showExternalWebPage();
             return true;
         }
 
         if (id == R.id.action_internal_web) {
             Log.d("==>","Will display internal web page");
+            Toast.makeText(this, "Internal Clicked", Toast.LENGTH_SHORT).show();
+            showInternalWebPage();
             return true;
         }
 
