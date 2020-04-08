@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private WebView webView;
 
     public void showExternalWebPage(){
-        // TODO: Add your codefor showing external web page here
+        // TODO: Add your code for showing external web page here
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/"));
         startActivity(browserIntent);
 
